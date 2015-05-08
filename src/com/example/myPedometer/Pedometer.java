@@ -37,11 +37,6 @@ public class Pedometer extends Activity {
     private boolean mIsMetric;
     private float mMaintainInc;
     private boolean mQuitting = false; // Set when user selected Quit from menu, can be used by onPause, onStop, onDestroy
-
-
-    /**
-     * True, when service is running.
-     */
     private boolean mIsRunning;
 
     /** Called when the activity is first created. */
@@ -210,7 +205,7 @@ public class Pedometer extends Activity {
         mPedometerSettings.savePaceOrSpeedSetting(mMaintain, mDesiredPaceOrSpeed);
     }
 
-    private StepService mService;
+   // private StepService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -225,7 +220,6 @@ public class Pedometer extends Activity {
             mService = null;
         }
     };
-
 
     private void startStepService() {
         if (! mIsRunning) {
@@ -339,6 +333,7 @@ public class Pedometer extends Activity {
     }
 
     // TODO: unite all into 1 type of message
+    /*
     private StepService.ICallback mCallback = new StepService.ICallback() {
         public void stepsChanged(int value) {
             mHandler.sendMessage(mHandler.obtainMessage(STEPS_MSG, value, 0));
@@ -356,6 +351,7 @@ public class Pedometer extends Activity {
             mHandler.sendMessage(mHandler.obtainMessage(CALORIES_MSG, (int)(value), 0));
         }
     };
+    */
 
     private static final int STEPS_MSG = 1;
     private static final int PACE_MSG = 2;
