@@ -205,7 +205,7 @@ public class Pedometer extends Activity {
         mPedometerSettings.savePaceOrSpeedSetting(mMaintain, mDesiredPaceOrSpeed);
     }
 
-   // private StepService mService;
+    private StepService mService;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {

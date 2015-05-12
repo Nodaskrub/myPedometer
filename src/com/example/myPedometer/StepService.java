@@ -22,7 +22,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Binder;
@@ -33,17 +38,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 
-/**
- * This is an example of implementing an application service that runs locally
- * in the same process as the application.  The {@link StepServiceController}
- * and {@link StepServiceBinding} classes show how to interact with the
- * service.
- *
- * <p>Notice the use of the {@link android.app.NotificationManager} when interesting things
- * happen in the service.  This is generally how background services should
- * interact with the user, rather than doing something more disruptive such as
- * calling startActivity().
- */
 public class StepService extends Service {
 	private static final String TAG = "name.bagi.levente.pedometer.StepService";
     private SharedPreferences mSettings;
@@ -56,11 +50,8 @@ public class StepService extends Service {
     private StepDetector mStepDetector;
     // private StepBuzzer mStepBuzzer; // used for debugging
     private StepDisplayer mStepDisplayer;
-    private PaceNotifier mPaceNotifier;
     private DistanceNotifier mDistanceNotifier;
     private SpeedNotifier mSpeedNotifier;
-    private CaloriesNotifier mCaloriesNotifier;
-    private SpeakingTimer mSpeakingTimer;
     
     private PowerManager.WakeLock wakeLock;
     private NotificationManager mNM;
@@ -132,7 +123,7 @@ public class StepService extends Service {
         mCaloriesNotifier = new CaloriesNotifier(mCaloriesListener, mPedometerSettings, mUtils);
         mCaloriesNotifier.setCalories(mCalories = mState.getFloat("calories", 0));
         mStepDetector.addStepListener(mCaloriesNotifier);
-        
+
         mSpeakingTimer = new SpeakingTimer(mPedometerSettings, mUtils);
         mSpeakingTimer.addListener(mStepDisplayer);
         mSpeakingTimer.addListener(mPaceNotifier);
